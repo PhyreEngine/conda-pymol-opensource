@@ -1,0 +1,57 @@
+{% set name = "pymol-opensource" %}
+{% set svn_rev = load_file_regex(
+    load_file="svninfo",
+    regex_pattern='(?m)^Revision: (\\d+)$',
+    from_recipe_dir=True) %}
+{% set major_ver = load_file_regex(
+    load_file='pymol/layer0/Version.h',
+    regex_pattern='_PyMOL_VERSION "(.*)"') %}
+{% set version = major_ver.group(1) ~ "_" ~ svn_rev.group(1) %}
+
+package:
+  name: {{ name | lower }}
+  version: {{ version }}
+
+source:
+  svn_url: https://svn.code.sf.net/p/pymol/code/trunk
+
+build:
+  script: |
+    cd pymol
+    # We need to find libGL for linking to work, so we need
+    # to add a system directory to the libary search path.
+    libgl_dir=$(dirname \
+        $(ldconfig -p \
+            | awk -F ' => ' '/libGL\.so$/ {print $2}' \
+            | head -1))
+    export LDFLAGS="$LDFLAGS -L$libgl_dir"
+    export PREFIX_PATH="$PREFIX:$BUILD_PREFIX:$SYS_PREFIX"
+    python setup.py install --prefix="$PREFIX"
+
+requirements:
+  run:
+  - pmw
+  - freetype
+  - libxml2
+  - glew
+  - libglu
+  - freeglut
+  - libpng
+  - python=3
+  host:
+  - freetype
+  - libxml2
+  - glew
+  - libglu
+  - mesa
+  - freeglut
+  - libpng
+  - python=3
+  build:
+  - {{ compiler('cxx') }}
+  - {{ cdt('mesa-libgl') }}
+  - msgpack-c
+
+about:
+  home: http://www.cmbi.ru.nl/dssp.html
+  license: boost
