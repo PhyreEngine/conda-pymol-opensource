@@ -16,6 +16,7 @@ source:
   svn_url: https://svn.code.sf.net/p/pymol/code/trunk
 
 build:
+  number: {{ environ.get("BUILD_NUMBER", 0) }}
   script: |
     cd pymol
     # We need to find libGL for linking to work, so we need
