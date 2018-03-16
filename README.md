@@ -14,8 +14,9 @@ This recipe will fetch the latest version of PyMol from SVN.
 ## Building
 
 First retrieve svn metadata by running `svn info
-https://svn.code.sf.net/p/pymol/code/trunk > svninfo`. Then you should be able
-to build this package by simply running `conda build .`.
+https://svn.code.sf.net/p/pymol/code/trunk > svninfo` (or simply
+`./pre-build.sh`). Then you should be able to build this package by simply
+running `conda build .`.
 
 [conda]: https://conda.io
 [pymol]: https://sourceforge.net/projects/pymol/
