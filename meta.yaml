@@ -35,7 +35,7 @@ requirements:
   - libxml2
   - glew
   - libglu
-  - freeglut
+  - freeglut>=3
   - libpng
   - python=3
   host:
@@ -44,12 +44,13 @@ requirements:
   - glew
   - libglu
   - mesa
-  - freeglut
+  - freeglut>=3
   - libpng
   - python=3
+  - {{ cdt('mesa-libgl') }}
+  - {{ cdt('libxxf86vm') }}
   build:
   - {{ compiler('cxx') }}
-  - {{ cdt('mesa-libgl') }}
   - msgpack-c
 
 about:
