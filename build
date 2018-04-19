@@ -1,2 +1,5 @@
 #!/bin/bash
+set -e
+set -x
 svn info https://svn.code.sf.net/p/pymol/code/trunk > svninfo
+conda build .
